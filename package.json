@@ -1,0 +1,43 @@
+{
+  "name": "base-project",
+  "version": "1.0.0",
+  "description": "base-ci-ifx-phpunit",
+  "main": "gruntfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "grunt test",
+    "install": "grunt install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Swift-Jr/base-project.git"
+  },
+  "keywords": [],
+  "author": "Rob Guard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Swift-Jr/base-project/issues"
+  },
+  "homepage": "https://github.com/Swift-Jr/base-project#readme",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-browser-sync": "^2.2.0",
+    "grunt-clean": "^0.4.0",
+    "grunt-contrib-clean": "^0.7.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-less": "^2.0.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-force-task": "^1.0.0",
+    "grunt-lesslint": "^4.0.0",
+    "grunt-modernizr": "^1.0.3",
+    "grunt-php": "^1.5.1",
+    "grunt-shell": "^2.1.0",
+    "jit-grunt": "^0.9.1",
+    "less-plugin-autoprefix": "^1.5.1",
+    "normalize.css": "^3.0.3"
+  }
+}

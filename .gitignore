@@ -1,0 +1,11 @@
+/node_modules
+/ci
+/build
+/temp
+/npm-debug.log
+/vendor
+/ifx
+/php-logs
+/php-debug-log
+/phpunit
+.DS_Store
