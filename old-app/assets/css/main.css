@@ -1,0 +1,76 @@
+header{
+	background-color: #555;
+	color: #fff;
+}
+header h1{
+	padding: 0;
+	margin: 15px 0;
+}
+nav ul li{
+	list-style: none;
+	display: inline-block;
+}
+nav{
+	
+}
+nav ul li a{
+	color: #fff;
+	font-weight: bold;
+	padding: 10px;
+	display: block;
+}
+nav ul li a:hover{ 
+	color:#fff;
+	background-color: #777;
+}
+.mb{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+button.plusminus{
+	width: 10%;
+	display: inline-block;
+	text-align: center;
+}
+input.inlinecontrol{
+	width: 80%;
+	display: inline-block;
+	text-align: center;
+}
+
+@media screen and (max-width: 1024px) {
+	button.plusminus{
+		width: 15%;
+	}
+	input.inlinecontrol{
+		width: 70%;
+	}	
+}
+
+@media screen and (max-width: 768px) {
+	button.plusminus{
+		width: 18%;
+	}
+	input.inlinecontrol{
+		width: 64%;
+	}	
+}
+
+@media screen and (max-width: 480px) {
+	button.plusminus{
+		width: 20%;
+	}
+	input.inlinecontrol{
+		width: 60%;
+	}	
+}
+
+@media screen and (max-width: 400px) {
+	button.plusminus{
+		width: 30%;
+	}
+	input.inlinecontrol{
+		width: 40%;
+	}	
+}
