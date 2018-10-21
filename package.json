@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/Swift-Jr/base-project#readme",
   "devDependencies": {
-    "eslint": "^5.2.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-prettier": "^2.6.2",
+    "eslint": "^5.7.0",
+    "eslint-config-prettier": "^2.10.0",
+    "eslint-plugin-prettier": "^2.7.0",
     "grunt": "^0.4.5",
     "grunt-browser-sync": "^2.2.0",
     "grunt-clean": "^0.4.0",
@@ -43,6 +43,6 @@
     "jit-grunt": "^0.9.1",
     "less-plugin-autoprefix": "^1.5.1",
     "normalize.css": "^3.0.3",
-    "prettier": "^1.14.0"
+    "prettier": "^1.14.3"
   }
 }
