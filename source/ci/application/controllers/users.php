@@ -92,6 +92,8 @@ class Users extends ifx_REST_Controller
             return $this->response($Response, ifx_REST_Controller::HTTP_UNAUTHORIZED);
         }
 
+        mRecoveryToken::deleteRecoveryToken($email);
+
         if (mRecoveryToken::createRecoveryToken($email)) {
             return $this->response([], ifx_REST_Controller::HTTP_CREATED);
         }
