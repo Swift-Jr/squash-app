@@ -8,6 +8,11 @@ class Users extends ifx_REST_Controller
         $lastname = $this->data['lastname'];
         $email = $this->data['email'];
         $password = $this->data['password'];
+        $token = $this->data['token'];
+
+        $Invite = new mInvite();
+        $Invite->token = $token;
+        $Invite->load();
 
         if (empty($firstname) ||
         empty($lastname) ||
@@ -17,7 +22,7 @@ class Users extends ifx_REST_Controller
         }
 
         //check unique email
-        if (!mUser::emailIsUnique($email)) {
+        if (mUser::emailExists($email) or mInvite::emailExists($email) && !$Invite->is_loaded()) {
             return $this->response(["error"=>"Yikes! Looks like that address is already in use"], ifx_REST_Controller::HTTP_BAD_REQUEST);
         }
 
@@ -35,6 +40,15 @@ class Users extends ifx_REST_Controller
             $User->email = $email;
 
             if ($User->save()) {
+                if ($Invite->is_loaded()) {
+                    $User->save($Invite->club);
+
+                    /*$Notification = new mNotification();
+                    $Notification->message = "He accepted";
+                    $Invite->by->save($Notification);*/
+
+                    $Invite->delete();
+                }
                 return $this->response($User->_data, ifx_REST_Controller::HTTP_CREATED);
             } else {
                 return $this->response(["error"=>$User->_validation->all()], ifx_REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
@@ -92,7 +106,21 @@ class Users extends ifx_REST_Controller
             return $this->response($Response, ifx_REST_Controller::HTTP_UNAUTHORIZED);
         }
 
-        if (mRecoveryToken::createRecoveryToken($email)) {
+        if (!($Recovery = mRecoveryToken::createRecoveryToken($email))) {
+            $this->config->load('email', true);
+            $Mail = new CI_Email($this->config->config['email']);
+
+            $Mail->from('admin@battre.infizi.com', 'Battre');
+            $Mail->set_mailtype('html');
+            $Mail->to($email);
+            $Mail->subject("Lost your password? We got you");
+            $Data = [
+              'recoveryUrl' => base_url('/account/recover/'.$Recovery->token)
+            ];
+            $Body = $this->load->view('emails/forgot_password.php', $Data, true);
+            $Mail->message($Body);
+
+            $Mail->send();
             return $this->response([], ifx_REST_Controller::HTTP_CREATED);
         }
 
