@@ -121,6 +121,7 @@ class Users extends ifx_REST_Controller
             $Mail->message($Body);
 
             $Mail->send();
+
             return $this->response([], ifx_REST_Controller::HTTP_CREATED);
         }
 
