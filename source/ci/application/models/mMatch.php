@@ -13,10 +13,11 @@ class mMatch extends ifx_Model
         $Match = (object)[];
         $Match->id = $this->id();
         $Match->date = $this->date;
+        $Match->league_id = $this->league->id();
         $Match->player1 = $this->player1->toJson();
-        $Match->player2 = $this->player1->toJson();
-        $Match->player1_score = $this->player1_score;
-        $Match->player2_score = $this->player2_score;
+        $Match->player2 = $this->player2->toJson();
+        $Match->player1Score = $this->player1_score;
+        $Match->player2Score = $this->player2_score;
 
         return $Match;
     }
