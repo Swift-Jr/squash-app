@@ -13,6 +13,11 @@ class mLeague extends ifx_Model
 
     public function toJson()
     {
+        $Match = new mMatch();
+        $Match->league_id = $this->id();
+        $Match->db->order_by('match.date', 'DESC')->limit(1);
+        $LastGame = $Match->fetch();
+
         $Object = (object)[];
         $Object->id = $this->id();
         $Object->created = $this->created;
@@ -21,6 +26,7 @@ class mLeague extends ifx_Model
         $Object->name = $this->name;
         $Object->shortname = $this->shortname;
         $Object->results = $this->leagueTable();
+        $Object->lastGame = $LastGame[0]->date;
 
         return $Object;
     }
