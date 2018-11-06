@@ -105,6 +105,7 @@ module.exports = function(grunt) {
     "copy:fonts",
     "copy:images",
     "copy:sourcephp",
+    "copy:env",
     "copy:htaccess",
     "copy:jwt"
   ];
@@ -210,6 +211,13 @@ module.exports = function(grunt) {
       cwd: "node_modules/font-awesome/fonts/",
       src: "**",
       dest: "<%=config.build %>fonts/",
+      expand: true
+    },
+
+    env: {
+      cwd: "/",
+      src: "env.php",
+      dest: "<%=config.build %>",
       expand: true
     },
 
