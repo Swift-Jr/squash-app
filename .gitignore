@@ -8,6 +8,7 @@
 /php-logs
 /php-debug-log
 /phpunit
+env.php
 composer.phar
 phpunit.phar
 .DS_Store
