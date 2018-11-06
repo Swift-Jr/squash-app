@@ -67,7 +67,7 @@ class Invites extends authenticated_REST_Controller
             }
         }
 
-        $this->response(['sent'=>$Sent], ifx_REST_Controller::HTTP_ACCEPTED);
+        $this->response(['sent'=>$Sent, 'invites'=>$SentInvites], ifx_REST_Controller::HTTP_ACCEPTED);
     }
 
     public function get_get_invite($Token)
