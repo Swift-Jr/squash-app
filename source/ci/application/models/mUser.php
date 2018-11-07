@@ -15,7 +15,8 @@ class mUser extends ifx_Model
         'user_id'=>$this->id(),
         'email'=>$this->email,
         'firstname'=>$this->firstname,
-        'lastname'=>$this->lastname
+        'lastname'=>$this->lastname,
+        'google_id'=>$this->google_id
       ];
     }
 

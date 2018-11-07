@@ -123,7 +123,7 @@ class Users extends ifx_REST_Controller
                     $Invite = new mInvite();
                     $Invite->token = $invite;
                     $Invite->load();
-                    
+
                     if ($Invite->is_loaded()) {
                         $User->save($Invite->club);
 
@@ -133,10 +133,13 @@ class Users extends ifx_REST_Controller
 
                         $Invite->delete();
                     }
-                } elseif ($User->google_id !== $payload['sub']) {
-                    $User->google_id = $payload['sub'];
-                    $User->save();
                 }
+                $User->email = $payload['email'];
+                $User->firstname = $payload['given_name'];
+                $User->lastname = $payload['family_name'];
+                $User->google_id = $payload['sub'];
+                //$User->set_password(md5($token.time()));
+                $User->save();
             }
 
             $Response = (object)[];

@@ -14,6 +14,35 @@ class Me extends authenticated_REST_Controller
         return $this->response($Response, ifx_REST_Controller::HTTP_OK);
     }
 
+    public function post_update()
+    {
+        $profile = $this->data['profile'];
+        $User = new mUser($this->token->getClaim('user_id'));
+
+        if (empty($profile['email']) || empty($profile['firstname']) || empty($profile['lastname'])) {
+            return $this->response(['error'=>"Required fields missing"], ifx_REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        $CurrentEmail = $User->email;
+        $User->email = md5($CurrentEmail.time());
+        $User->save();
+        $User->email = $CurrentEmail;
+
+        if (!mUser::emailIsUnique($profile['email'])) {
+            $User->save();
+            return $this->response(['error'=>"Looks like that e-mail already in use"], ifx_REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        $User->firstname = $profile['firstname'];
+        $User->lastname = $profile['lastname'];
+
+        if ($User->save()) {
+            return $this->response(['profile'=>$User->toJson()], ifx_REST_Controller::HTTP_ACCEPTED);
+        }
+
+        return $this->response(['error'=>"Wasn't able to update that user account"], ifx_REST_Controller::HTTP_BAD_REQUEST);
+    }
+
     public function get_clubs()
     {
         $User = new mUser($this->token->getClaim('user_id'));
