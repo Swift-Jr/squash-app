@@ -81,20 +81,71 @@ class Users extends ifx_REST_Controller
             return $this->response($Response, ifx_REST_Controller::HTTP_UNAUTHORIZED);
         }
 
-        $Data = [
-            'user_id'=>$User->id(),
-            'email'=>$User->email,
-            'firstname'=>$User->firstname,
-            'lastname'=>$User->lastname
-        ];
-
-        $Token = JWT::createToken($Data);
-
         $Response = (object)[];
-        $Response->user = $Data;
-        $Response->token = (string) $Token;
+        $Response->user = $User->toJson();
+        $Response->token = (string) $User->createJWT();
 
         return $this->response($Response, ifx_REST_Controller::HTTP_ACCEPTED);
+    }
+
+    public function post_googleauthenticate()
+    {
+        $token = $this->data['token'];
+        $invite = $this->data['invite'];
+
+        //Validate the token first
+        require FCPATH.'/vendor/autoload.php';
+        $client = new Google_Client(['client_id' => '474168737882-6eb001ad86fc66ktc0dkvhopsedfc203.apps.googleusercontent.com']);
+        $payload = $client->verifyIdToken($token);
+
+        if ($payload) {
+            //Check if account exists
+            $User = new mUser();
+            $User->google_id = $payload['sub'];
+            if (!$User->load()) {
+                //Create the user
+                $User = new mUser();
+                $User->email = $payload['email'];
+
+                if (!$User->load()) {
+                    $User = new mUser();
+
+                    $User->email = $payload['email'];
+                    $User->firstname = $payload['given_name'];
+                    $User->lastname = $payload['family_name'];
+                    $User->google_id = $payload['sub'];
+                    $User->set_password(md5($token.time()));
+
+                    if (!$User->save()) {
+                        return $this->response([], ifx_REST_Controller::HTTP_UNAUTHORIZED);
+                    }
+
+                    $Invite = new mInvite();
+                    $Invite->token = $invite;
+                    $Invite->load();
+                    
+                    if ($Invite->is_loaded()) {
+                        $User->save($Invite->club);
+
+                        /*$Notification = new mNotification();
+                        $Notification->message = "He accepted";
+                        $Invite->by->save($Notification);*/
+
+                        $Invite->delete();
+                    }
+                } elseif ($User->google_id !== $payload['sub']) {
+                    $User->google_id = $payload['sub'];
+                    $User->save();
+                }
+            }
+
+            $Response = (object)[];
+            $Response->user = $User->toJson();
+            $Response->token = (string) $User->createJWT();
+
+            return $this->response($Response, ifx_REST_Controller::HTTP_ACCEPTED);
+        }
+        return $this->response([], ifx_REST_Controller::HTTP_UNAUTHORIZED);
     }
 
     public function post_recover()

@@ -12,10 +12,16 @@ class mUser extends ifx_Model
     {
         return (object)[
         'id'=>$this->id(),
+        'user_id'=>$this->id(),
         'email'=>$this->email,
         'firstname'=>$this->firstname,
         'lastname'=>$this->lastname
       ];
+    }
+
+    public function createJWT()
+    {
+        return JWT::createToken($this->toJson());
     }
 
     public function set_password($password)

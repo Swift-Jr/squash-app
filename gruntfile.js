@@ -107,7 +107,8 @@ module.exports = function(grunt) {
     "copy:sourcephp",
     "copy:env",
     "copy:htaccess",
-    "copy:jwt"
+    "copy:jwt",
+    "copy:vendor"
   ];
 
   var devList = taskList.slice();
@@ -215,9 +216,8 @@ module.exports = function(grunt) {
     },
 
     env: {
-      cwd: "/",
       src: "env.php",
-      dest: "<%=config.build %>",
+      dest: "<%=config.build %>/",
       expand: true
     },
 
@@ -233,6 +233,13 @@ module.exports = function(grunt) {
       cwd: "<%=config.source %>images/",
       src: "**",
       dest: "<%=config.build %><%=config.assets %>images/"
+    },
+
+    vendor: {
+      expand: true,
+      cwd: "vendor/",
+      src: "**",
+      dest: "<%=config.build %>vendor/"
     },
 
     assets: {
