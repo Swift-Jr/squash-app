@@ -27,6 +27,8 @@ class mLeague extends ifx_Model
         $Object->shortname = $this->shortname;
         $Object->results = $this->leagueTable();
         $Object->lastGame = $LastGame[0]->date;
+        $Object->archived = $this->archived;
+        $Object->deleted = $this->deleted;
 
         return $Object;
     }

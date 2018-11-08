@@ -95,7 +95,7 @@ class Users extends ifx_REST_Controller
 
         //Validate the token first
         require FCPATH.'/vendor/autoload.php';
-        $client = new Google_Client(['client_id' => '474168737882-6eb001ad86fc66ktc0dkvhopsedfc203.apps.googleusercontent.com']);
+        $client = new Google_Client(['client_id' => GOOGLE_CLIENT_ID]);
         $payload = $client->verifyIdToken($token);
 
         if ($payload) {

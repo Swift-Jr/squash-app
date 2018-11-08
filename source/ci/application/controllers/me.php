@@ -84,7 +84,7 @@ class Me extends authenticated_REST_Controller
         return $Clubs;
     }
 
-    public function _getLeaguesFromUser(mUser $User, $ClubID = null)
+    public function _getLeaguesFromUser(mUser $User, $ClubID = null, $Deleted = false)
     {
         $Leagues = [];
         foreach ($User->clubs as $Club) {
@@ -94,6 +94,9 @@ class Me extends authenticated_REST_Controller
                 }
             }
             foreach ($Club->leagues as $League) {
+                if ($League->deleted && $Deleted === false) {
+                    continue;
+                }
                 array_push($Leagues, $League->toJson());
             }
         }
