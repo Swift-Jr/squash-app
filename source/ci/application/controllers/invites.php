@@ -54,7 +54,7 @@ class Invites extends authenticated_REST_Controller
             $Data = [
                 'invitedBy' => $User->firstname,
                 'clubName' => $Club->name,
-                'inviteUrl' => base_url('/account/invite/'.$Invite->token)
+                'inviteUrl' => (APP_URL.'/account/invite/'.$Invite->token)
             ];
             $Body = $this->load->view('emails/invite.php', $Data, true);
             $Mail->message($Body);

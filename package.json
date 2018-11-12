@@ -9,7 +9,8 @@
   "scripts": {
     "test": "grunt test",
     "install": "grunt install",
-    "start": "grunt run"
+    "start": "grunt run",
+    "build": "grunt build --env=live"
   },
   "repository": {
     "type": "git",

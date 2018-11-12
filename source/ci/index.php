@@ -1,6 +1,4 @@
 <?php
-require 'env.php';
-
 /**
  * CodeIgniter
  *
@@ -55,8 +53,9 @@ require 'env.php';
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-    define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+ define('ENVIRONMENT', 'development');
 
+require 'env/env.'.ENVIRONMENT.'.php';
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -69,7 +68,6 @@ switch (ENVIRONMENT) {
     case 'development':
         error_reporting(-1);
         ini_set('display_errors', 1);
-        define('APP_URL', 'http://localhost:3000');
     break;
 
     case 'testing':

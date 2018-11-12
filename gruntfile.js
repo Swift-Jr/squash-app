@@ -107,14 +107,21 @@ module.exports = function(grunt) {
     "copy:sourcephp",
     "copy:env",
     "copy:htaccess",
-    "copy:jwt",
     "copy:vendor"
   ];
+
+  var buildSteps = ["copy:htaccessprod"];
 
   var devList = taskList.slice();
 
   for (var i in serverList) {
     devList.push(serverList[i]);
+  }
+
+  var buildList = taskList.slice();
+
+  for (var ix in buildSteps) {
+    buildList.push(buildSteps[ix]);
   }
 
   grunt.registerTask("install", installList);
@@ -124,6 +131,7 @@ module.exports = function(grunt) {
   grunt.registerTask("server", serverList);
   grunt.registerTask("run", devList);
   grunt.registerTask("default", devList);
+  grunt.registerTask("build", buildList);
   grunt.registerTask("ifx-renew", ["clean:ifx", "shell:ifx", "copy:ifx"]);
 
   grunt.config("onLESSChange", [
@@ -216,13 +224,21 @@ module.exports = function(grunt) {
     },
 
     env: {
-      src: "env.php",
-      dest: "<%=config.build %>/",
+      cwd: "env/",
+      src: "**",
+      dest: "<%=config.build %>/env/",
       expand: true
     },
 
     htaccess: {
-      cwd: "<%=config.source %>",
+      cwd: "htaccess/development/",
+      src: ".htaccess",
+      dest: "<%=config.build %>",
+      expand: true
+    },
+
+    htaccessprod: {
+      cwd: "htaccess/production/",
       src: ".htaccess",
       dest: "<%=config.build %>",
       expand: true
@@ -239,7 +255,7 @@ module.exports = function(grunt) {
       expand: true,
       cwd: "vendor/",
       src: "**",
-      dest: "<%=config.build %>vendor/"
+      dest: "<%=config.build %>application/vendor/"
     },
 
     assets: {
@@ -285,13 +301,6 @@ module.exports = function(grunt) {
       src: ["**"],
       mode: "0777",
       dest: "<%=config.build %>"
-    },
-
-    jwt: {
-      expand: true,
-      cwd: "vendor/lcobucci/jwt/src",
-      src: "**",
-      dest: "<%=config.build %>jwt"
     },
 
     citests: {

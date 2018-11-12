@@ -1,18 +1,5 @@
 <?php
 
-spl_autoload_register(function ($ClassName) {
-    if (stristr($ClassName, 'Lcobucci') === false) {
-        return;
-    }
-
-    $ClassName = str_replace('\\', '/', $ClassName);
-    $ClassName = str_replace('Lcobucci/', '', $ClassName);
-
-    $ClassName = FCPATH.$ClassName.'.php';
-
-    require($ClassName);
-});
-
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\ValidationData;

@@ -94,7 +94,6 @@ class Users extends ifx_REST_Controller
         $invite = $this->data['invite'];
 
         //Validate the token first
-        require FCPATH.'/vendor/autoload.php';
         $client = new Google_Client(['client_id' => GOOGLE_CLIENT_ID]);
         $payload = $client->verifyIdToken($token);
 
@@ -169,7 +168,7 @@ class Users extends ifx_REST_Controller
             $Mail->to($email);
             $Mail->subject("Lost your password? We got you");
             $Data = [
-              'recoveryUrl' => base_url('/account/recover/'.$Recovery->token)
+              'recoveryUrl' => (APP_URL.'/account/recover/'.$Recovery->token)
             ];
             $Body = $this->load->view('emails/forgot_password.php', $Data, true);
             $Mail->message($Body);
