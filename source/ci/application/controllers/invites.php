@@ -75,7 +75,7 @@ class Invites extends authenticated_REST_Controller
         $Invite = new mInvite();
         $Invite->token = $Token;
 
-        if (!$Invite->load()) {
+        if (!$Invite->load() || $Invite->isGarbage()) {
             $this->response(['error'=>'Thats links not valid'], ifx_REST_Controller::HTTP_BAD_REQUEST);
         }
 
@@ -89,6 +89,9 @@ class Invites extends authenticated_REST_Controller
         $Invites = [];
 
         foreach ($User->invites as $Invite) {
+            if ($Invite->isGarbage()) {
+                continue;
+            }
             $Invites[] = $Invite->toJson();
         }
 

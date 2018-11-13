@@ -31,6 +31,18 @@ class mInvite extends ifx_Model
         }
     }
 
+    public function isGarbage()
+    {
+        $this->ci->load->helper('date');
+        if (mysql_to_unix($this->created) < time()-259200) {
+            $this->delete();
+
+            return true;
+        }
+
+        return false;
+    }
+
     public function __set_email($email)
     {
         return strtolower($email);
