@@ -18,8 +18,8 @@ class JWT
                             ->setAudience(JWT_ISSUE) // Configures the audience (aud claim)
                             ->setId(JWT_ID, true) // Configures the id (jti claim), replicating as a header item
                             ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
-                            ->setNotBefore(time()) // Configures the time that the token can be used (nbf claim)
-                            ->setExpiration(time() + 3600); // Configures the expiration time of the token (exp claim)
+                            //->setNotBefore(time()) // Configures the time that the token can be used (nbf claim)
+                            /*->setExpiration(time() + 3600)*/; // Configures the expiration time of the token (exp claim)
 
         foreach ($Claims as $Key=>$Value) {
             $Builder->set($Key, $Value); // Configures claims
