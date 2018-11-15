@@ -62,7 +62,34 @@ class Game extends authenticated_REST_Controller
 
             $this->response(['matches'=>$ResultMatches], ifx_REST_Controller::HTTP_OK);
         }
-        
+
         $this->response(['matches'=>$ResultMatches], ifx_REST_Controller::HTTP_OK);
+    }
+
+    public function post_delete()
+    {
+        $User = new mUser($this->token->getClaim('user_id'));
+
+        $Game = new mMatch($this->data['id']);
+
+        $League = $Game->league;
+
+        if ($Game->player1->id() == $User->id() || $Game->player2->id() == $User->id() and $Game->delete()) {
+            $Games = [];
+            foreach ($League->matches as $Match) {
+                $Games[] = $Match->toJson();
+            }
+
+            $Return = (object)[
+                'matches'=> $Games,
+                'league'=>$League->toJson()
+            ];
+
+            $this->response($Return, ifx_REST_Controller::HTTP_ACCEPTED);
+        } else {
+            $Errors = $Game->_validation->all();
+        }
+
+        $this->response(['error'=>$Errors], ifx_REST_Controller::HTTP_BAD_REQUEST);
     }
 }

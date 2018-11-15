@@ -12,7 +12,7 @@ class mMatch extends ifx_Model
     {
         $Match = (object)[];
         $Match->id = $this->id();
-        $Match->date = $this->date;
+        $Match->date = $this->date ? $this->date : date(DATE_ATOM);
         $Match->league_id = $this->league->id();
         $Match->player1 = $this->player1->toJson();
         $Match->player2 = $this->player2->toJson();
